@@ -19,6 +19,7 @@
 /build
 
 # misc
+.DS_Store
 *.pem
 
 # debug
@@ -38,6 +39,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# drizzle
+drizzle/meta
+
 # project specific
 .mcp.json
 cache/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
