@@ -293,47 +293,47 @@ drizzle.config.ts                       # Drizzle configuration
 
 **Goal:** Scaffold the Next.js 16.1 app with auth, database, base layout, and navigation.
 
-- [ ] **1.1 Project Initialization**
-  - [ ] Initialize Next.js 16.1 project with TypeScript, Tailwind CSS v4.2, ESLint, app router, src directory
-  - [ ] Verify Tailwind v4.2 is installed; set up CSS-native `@theme` directives in globals.css
-  - [ ] Define custom color tokens for signal colors (strong-buy green, buy green, hold yellow, sell orange, strong-sell red) and dark mode palette
-  - [ ] Install and initialize shadcn/ui with `new-york` style (unified `radix-ui` package)
-  - [ ] Add base shadcn components: Button, Card, Dialog, DropdownMenu, Input, Tabs, Badge, Tooltip, Separator, Skeleton, Toast, Avatar, Sheet
+- [x] **1.1 Project Initialization**
+  - [x] Initialize Next.js 16.1 project with TypeScript, Tailwind CSS v4.2, ESLint, app router, src directory
+  - [x] Verify Tailwind v4.2 is installed; set up CSS-native `@theme` directives in globals.css
+  - [x] Define custom color tokens for signal colors (strong-buy green, buy green, hold yellow, sell orange, strong-sell red) and dark mode palette
+  - [x] Install and initialize shadcn/ui with `new-york` style (unified `radix-ui` package)
+  - [x] Add base shadcn components: Button, Card, Dialog, DropdownMenu, Input, Tabs, Badge, Tooltip, Separator, Skeleton, Toast, Avatar, Sheet
 
-- [ ] **1.2 Authentication (Auth.js v5)**
-  - [ ] Install `next-auth@5` and `@auth/drizzle-adapter`
-  - [ ] Create `src/lib/auth/index.ts` exporting `auth`, `signIn`, `signOut`, `handlers`
-  - [ ] Configure **Email/Password** credentials provider (with bcrypt password hashing)
-  - [ ] Configure **Google OAuth** provider (env: `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`)
-  - [ ] Configure **GitHub OAuth** provider (env: `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`)
-  - [ ] Set `AUTH_SECRET` environment variable
-  - [ ] Create `src/app/api/auth/[...nextauth]/route.ts`
-  - [ ] Create `proxy.ts` at project root for auth session checks and route protection
-  - [ ] Build login page at `src/app/(auth)/login/page.tsx` with email/password form + Google/GitHub buttons
-  - [ ] Build register page at `src/app/(auth)/register/page.tsx` with email/password signup form
-  - [ ] Add `SessionProvider` wrapper in root layout
+- [x] **1.2 Authentication (Auth.js v5)**
+  - [x] Install `next-auth@5` and `@auth/drizzle-adapter`
+  - [x] Create `src/lib/auth/index.ts` exporting `auth`, `signIn`, `signOut`, `handlers`
+  - [x] Configure **Email/Password** credentials provider (with bcrypt password hashing)
+  - [x] Configure **Google OAuth** provider (env: `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`)
+  - [x] Configure **GitHub OAuth** provider (env: `AUTH_GITHUB_ID`, `AUTH_GITHUB_SECRET`)
+  - [x] Set `AUTH_SECRET` environment variable
+  - [x] Create `src/app/api/auth/[...nextauth]/route.ts`
+  - [x] Create `proxy.ts` at project root for auth session checks and route protection
+  - [x] Build login page at `src/app/(auth)/login/page.tsx` with email/password form + Google/GitHub buttons
+  - [x] Build register page at `src/app/(auth)/register/page.tsx` with email/password signup form
+  - [x] Add `SessionProvider` wrapper in root layout
 
-- [ ] **1.3 Database (Drizzle ORM + Supabase)**
-  - [ ] Install `drizzle-orm`, `postgres`, `drizzle-kit`
+- [x] **1.3 Database (Drizzle ORM + Supabase)**
+  - [x] Install `drizzle-orm`, `postgres`, `drizzle-kit`
   - [ ] Create Supabase project and get connection strings
-  - [ ] Create `src/lib/db/index.ts` with Supabase PostgreSQL connection
-  - [ ] Create `src/lib/db/schema.ts` with all tables (auth tables + watchlist_items, portfolio_holdings, portfolio_transactions, signal_history, price_alerts, user_preferences)
-  - [ ] Create `drizzle.config.ts`
-  - [ ] Generate and push initial migration
-  - [ ] Wire Drizzle adapter into Auth.js config
+  - [x] Create `src/lib/db/index.ts` with Supabase PostgreSQL connection
+  - [x] Create `src/lib/db/schema.ts` with all tables (auth tables + watchlist_items, portfolio_holdings, portfolio_transactions, signal_history, price_alerts, user_preferences)
+  - [x] Create `drizzle.config.ts`
+  - [x] Generate and push initial migration
+  - [x] Wire Drizzle adapter into Auth.js config
 
-- [ ] **1.4 Base Layout & Navigation**
-  - [ ] Create root layout with dark-mode-first theme, font loading, global metadata
-  - [ ] Create dashboard layout with sidebar + header
-  - [ ] Build collapsible sidebar with nav links: Dashboard, Assets, Signals, Watchlist, Portfolio, Settings
-  - [ ] Build header with search bar, user avatar dropdown (sign out), theme toggle
-  - [ ] Build mobile bottom tab navigation
-  - [ ] Create placeholder pages for all dashboard routes
-  - [ ] Set up Zustand `ui-store` for sidebar collapsed state and theme preference
+- [x] **1.4 Base Layout & Navigation**
+  - [x] Create root layout with dark-mode-first theme, font loading, global metadata
+  - [x] Create dashboard layout with sidebar + header
+  - [x] Build collapsible sidebar with nav links: Dashboard, Assets, Signals, Watchlist, Portfolio, Settings
+  - [x] Build header with search bar, user avatar dropdown (sign out), theme toggle
+  - [x] Build mobile bottom tab navigation
+  - [x] Create placeholder pages for all dashboard routes
+  - [x] Set up Zustand `ui-store` for sidebar collapsed state and theme preference
 
-- [ ] **1.5 Configuration & Documentation**
-  - [ ] Create `.env.local` template with all required variables
-  - [ ] Update `.gitignore` for Next.js project (node_modules, .next, .env.local, drizzle/meta)
+- [x] **1.5 Configuration & Documentation**
+  - [x] Create `.env.local` template with all required variables
+  - [x] Update `.gitignore` for Next.js project (node_modules, .next, .env.local, drizzle/meta)
   - [ ] Verify `npm run dev` works with auth flow end-to-end
 
 ---
@@ -342,54 +342,54 @@ drizzle.config.ts                       # Drizzle configuration
 
 **Goal:** Build API client services, the technical indicator calculation engine, and the composite buy/sell signal algorithm.
 
-- [ ] **2.1 API Client Services**
-  - [ ] Create `src/lib/api/coingecko.ts` - typed client for markets, coin detail, market chart, simple price, trending
-  - [ ] Create `src/lib/api/alpha-vantage.ts` - typed client for daily/intraday time series, company overview
-  - [ ] Create `src/lib/api/finnhub.ts` - typed REST client for quote/candle + WebSocket connection manager for real-time prices
-  - [ ] Create `src/lib/api/sentiment.ts` - Alternative.me Fear & Greed Index client
-  - [ ] Create `src/lib/utils/rate-limiter.ts` - per-API call counting with sliding window, overflow queue
+- [x] **2.1 API Client Services**
+  - [x] Create `src/lib/api/coingecko.ts` - typed client for markets, coin detail, market chart, simple price, trending
+  - [x] Create `src/lib/api/alpha-vantage.ts` - typed client for daily/intraday time series, company overview
+  - [x] Create `src/lib/api/finnhub.ts` - typed REST client for quote/candle + WebSocket connection manager for real-time prices
+  - [x] Create `src/lib/api/sentiment.ts` - Alternative.me Fear & Greed Index client
+  - [x] Create `src/lib/utils/rate-limiter.ts` - per-API call counting with sliding window, overflow queue
 
-- [ ] **2.2 Type Definitions**
-  - [ ] Define `src/types/market.ts` - Asset, OHLCV, Ticker, MarketData, AssetType
-  - [ ] Define `src/types/signals.ts` - Signal, SignalType, IndicatorResult, CompositeScore, IndicatorWeights
-  - [ ] Define `src/types/portfolio.ts` - Holding, Transaction, PortfolioSummary
+- [x] **2.2 Type Definitions**
+  - [x] Define `src/types/market.ts` - Asset, OHLCV, Ticker, MarketData, AssetType
+  - [x] Define `src/types/signals.ts` - Signal, SignalType, IndicatorResult, CompositeScore, IndicatorWeights
+  - [x] Define `src/types/portfolio.ts` - Holding, Transaction, PortfolioSummary
 
-- [ ] **2.3 Server-Side Caching & API Routes**
-  - [ ] Create `src/lib/utils/cache.ts` - wrapper around Next.js caching with revalidation tags
-  - [ ] Implement per-endpoint cache TTLs (see caching table above)
-  - [ ] Create API routes:
-    - [ ] `api/crypto/route.ts` - market list + trending
-    - [ ] `api/crypto/[id]/route.ts` - detail + chart data
-    - [ ] `api/stocks/route.ts` - market overview
-    - [ ] `api/stocks/[symbol]/route.ts` - detail + chart data
-    - [ ] `api/sentiment/route.ts` - Fear & Greed Index
-    - [ ] `api/signals/[type]/[symbol]/route.ts` - on-demand signal calculation
+- [x] **2.3 Server-Side Caching & API Routes**
+  - [x] Create `src/lib/utils/cache.ts` - wrapper around Next.js caching with revalidation tags
+  - [x] Implement per-endpoint cache TTLs (see caching table above)
+  - [x] Create API routes:
+    - [x] `api/crypto/route.ts` - market list + trending
+    - [x] `api/crypto/[id]/route.ts` - detail + chart data
+    - [x] `api/stocks/route.ts` - market overview
+    - [x] `api/stocks/[symbol]/route.ts` - detail + chart data
+    - [x] `api/sentiment/route.ts` - Fear & Greed Index
+    - [x] `api/signals/[type]/[symbol]/route.ts` - on-demand signal calculation
 
-- [ ] **2.4 Technical Indicator Engine**
-  - [ ] Install `trading-signals` npm package
-  - [ ] Create `src/lib/engine/indicators.ts`:
-    - [ ] `calculateRSI(prices, period?)` - RSI class, maps RSI value to 0-100 score
-    - [ ] `calculateMACD(prices)` - MACD class, detects crossover, returns score
-    - [ ] `calculateBollingerBands(prices, period?)` - evaluates price position relative to bands
-    - [ ] `calculateMovingAverages(prices)` - 50d/200d SMA, detects golden/death cross
-    - [ ] `calculateVolumeSignal(volumes, prices)` - compares to 20-day average, correlates with direction
+- [x] **2.4 Technical Indicator Engine**
+  - [x] Install `trading-signals` npm package
+  - [x] Create `src/lib/engine/indicators.ts`:
+    - [x] `calculateRSI(prices, period?)` - RSI class, maps RSI value to 0-100 score
+    - [x] `calculateMACD(prices)` - MACD class, detects crossover, returns score
+    - [x] `calculateBollingerBands(prices, period?)` - evaluates price position relative to bands
+    - [x] `calculateMovingAverages(prices)` - 50d/200d SMA, detects golden/death cross
+    - [x] `calculateVolumeSignal(volumes, prices)` - compares to 20-day average, correlates with direction
 
-- [ ] **2.5 Composite Signal Algorithm**
-  - [ ] Create `src/lib/engine/composite-score.ts`:
-    - [ ] Weighted score calculation with configurable weights
-    - [ ] Sentiment modifier application (+/- 5 pts)
-    - [ ] Score clamping (0-100) and signal type determination
-    - [ ] Cross-confirmation detection (MACD + RSI agreement)
-  - [ ] Create `src/lib/engine/signal-generator.ts`:
-    - [ ] `generateSignal(ohlcv, volumes, sentimentIndex, weights?)` - orchestrates all calculations
-    - [ ] Returns full Signal object with individual indicator breakdowns
+- [x] **2.5 Composite Signal Algorithm**
+  - [x] Create `src/lib/engine/composite-score.ts`:
+    - [x] Weighted score calculation with configurable weights
+    - [x] Sentiment modifier application (+/- 5 pts)
+    - [x] Score clamping (0-100) and signal type determination
+    - [x] Cross-confirmation detection (MACD + RSI agreement)
+  - [x] Create `src/lib/engine/signal-generator.ts`:
+    - [x] `generateSignal(ohlcv, volumes, sentimentIndex, weights?)` - orchestrates all calculations
+    - [x] Returns full Signal object with individual indicator breakdowns
 
-- [ ] **2.6 Client State & Hooks**
-  - [ ] Create `src/lib/store/market-store.ts` (Zustand) - selectedAsset, marketData, isLoading
-  - [ ] Create `src/lib/store/signal-store.ts` (Zustand) - currentSignals, signalHistory, filters
-  - [ ] Create `src/hooks/use-market-data.ts` - fetches from API routes with polling
-  - [ ] Create `src/hooks/use-signals.ts` - triggers signal calculation, manages loading
-  - [ ] Create `src/hooks/use-websocket.ts` - Finnhub WebSocket for real-time stock prices
+- [x] **2.6 Client State & Hooks**
+  - [x] Create `src/lib/store/market-store.ts` (Zustand) - selectedAsset, marketData, isLoading
+  - [x] Create `src/lib/store/signal-store.ts` (Zustand) - currentSignals, signalHistory, filters
+  - [x] Create `src/hooks/use-market-data.ts` - fetches from API routes with polling
+  - [x] Create `src/hooks/use-signals.ts` - triggers signal calculation, manages loading
+  - [x] Create `src/hooks/use-websocket.ts` - Finnhub WebSocket for real-time stock prices
 
 ---
 
