@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { userPreferences } from '@/lib/db/schema';
+import { eq } from 'drizzle-orm';
 import { getMarketChart } from '@/lib/api/coingecko';
 import { getCandles } from '@/lib/api/finnhub';
 import { getFearGreedIndex } from '@/lib/api/sentiment';
 import { generateSignal } from '@/lib/engine/signal-generator';
+import { persistSignal } from '@/lib/engine/signal-persistence';
 import type { OHLCVData, AssetType } from '@/types/market';
 import type { IndicatorWeights } from '@/types/signals';
 import { DEFAULT_WEIGHTS, WEIGHT_PRESETS } from '@/types/signals';
@@ -69,9 +73,32 @@ export async function GET(
     const days = Math.min(Math.max(parseInt(searchParams.get('days') ?? '365', 10), 30), 730);
     const preset = searchParams.get('preset');
 
+    // Resolve weights: query param preset > user preferences > defaults
     let weights: IndicatorWeights = DEFAULT_WEIGHTS;
+    let usingCustomWeights = false;
+
     if (preset && preset in WEIGHT_PRESETS) {
       weights = WEIGHT_PRESETS[preset];
+      usingCustomWeights = preset !== 'default';
+    } else if (session.user?.id) {
+      // Load user's saved custom weights from database
+      const [prefs] = await db
+        .select({ indicatorWeights: userPreferences.indicatorWeights })
+        .from(userPreferences)
+        .where(eq(userPreferences.userId, session.user.id))
+        .limit(1);
+
+      if (prefs?.indicatorWeights) {
+        weights = prefs.indicatorWeights as IndicatorWeights;
+        // Check if weights differ from default
+        usingCustomWeights = Object.keys(DEFAULT_WEIGHTS).some(
+          (k) =>
+            Math.abs(
+              weights[k as keyof IndicatorWeights] -
+                DEFAULT_WEIGHTS[k as keyof IndicatorWeights]
+            ) > 0.001
+        );
+      }
     }
 
     // Fetch OHLCV data and sentiment in parallel
@@ -97,9 +124,17 @@ export async function GET(
       assetType,
     );
 
+    // Persist signal to history (best-effort, don't fail the request)
+    if (session.user?.id) {
+      persistSignal(session.user.id, signal).catch(() => {
+        // Signal persistence is non-critical; silently ignore errors
+      });
+    }
+
     return NextResponse.json({
       signal,
       dataPoints: ohlcv.length,
+      usingCustomWeights,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to generate signal';

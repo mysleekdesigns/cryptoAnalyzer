@@ -5,6 +5,8 @@ import { formatSignalScore } from '@/lib/utils/formatters';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { CompositeSignal } from '@/types/signals';
+import { DEFAULT_WEIGHTS } from '@/types/signals';
+import { SlidersHorizontalIcon } from 'lucide-react';
 
 const INDICATOR_LABELS: Record<string, string> = {
   rsi: 'RSI',
@@ -26,9 +28,21 @@ interface CompositeScoreProps {
   signal: CompositeSignal;
 }
 
+function hasCustomWeights(signal: CompositeSignal): boolean {
+  if (!signal.weights) return false;
+  return Object.keys(DEFAULT_WEIGHTS).some(
+    (k) =>
+      Math.abs(
+        signal.weights[k as keyof typeof DEFAULT_WEIGHTS] -
+          DEFAULT_WEIGHTS[k as keyof typeof DEFAULT_WEIGHTS]
+      ) > 0.001
+  );
+}
+
 export function CompositeScore({ signal }: CompositeScoreProps) {
   const { label, colorClass, bgClass } = formatSignalScore(signal.compositeScore);
   const strokeColor = SIGNAL_STROKE_COLORS[signal.signalType] ?? '#eab308';
+  const isCustom = hasCustomWeights(signal);
 
   // SVG gauge params
   const size = 200;
@@ -48,9 +62,17 @@ export function CompositeScore({ signal }: CompositeScoreProps) {
   return (
     <Card className="border-border/50 bg-card">
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          Composite Signal
-        </CardTitle>
+        <div className="flex items-center gap-2">
+          <CardTitle className="text-sm font-medium text-muted-foreground">
+            Composite Signal
+          </CardTitle>
+          {isCustom && (
+            <Badge variant="outline" className="gap-1 text-xs">
+              <SlidersHorizontalIcon className="size-3" />
+              Custom
+            </Badge>
+          )}
+        </div>
       </CardHeader>
       <CardContent className="flex flex-col items-center gap-4">
         {/* Circular Gauge */}

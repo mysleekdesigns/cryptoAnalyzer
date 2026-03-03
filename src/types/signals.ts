@@ -129,3 +129,44 @@ export const WEIGHT_PRESETS: Record<string, IndicatorWeights> = {
   momentum: { rsi: 0.15, macd: 0.35, bollinger_bands: 0.10, moving_averages: 0.20, volume: 0.20 },
   mean_reversion: { rsi: 0.30, macd: 0.15, bollinger_bands: 0.25, moving_averages: 0.15, volume: 0.15 },
 };
+
+// --- Backtesting types ---
+
+export interface BacktestTrade {
+  entryTime: number;     // Unix timestamp
+  entryPrice: number;
+  entrySignal: SignalType;
+  exitTime: number;      // Unix timestamp
+  exitPrice: number;
+  exitSignal: SignalType;
+  holdDuration: number;  // milliseconds
+  returnPct: number;     // percentage gain/loss
+  pnl: number;           // absolute profit/loss
+}
+
+export interface BacktestStats {
+  totalTrades: number;
+  winningTrades: number;
+  losingTrades: number;
+  winRate: number;           // 0-1
+  avgGainPct: number;        // average winning trade %
+  avgLossPct: number;        // average losing trade %
+  totalReturnPct: number;    // cumulative return %
+  maxDrawdownPct: number;    // worst peak-to-trough %
+  sharpeRatio: number;       // risk-adjusted return
+  profitFactor: number;      // gross profit / gross loss
+  bestTradePct: number;
+  worstTradePct: number;
+  avgHoldDuration: number;   // milliseconds
+}
+
+export interface BacktestResult {
+  symbol: string;
+  assetType: 'crypto' | 'stock';
+  dateRange: { from: number; to: number };
+  weights: IndicatorWeights;
+  stats: BacktestStats;
+  trades: BacktestTrade[];
+  equityCurve: { time: number; equity: number }[];
+  signals: { time: number; score: number; signalType: SignalType }[];
+}

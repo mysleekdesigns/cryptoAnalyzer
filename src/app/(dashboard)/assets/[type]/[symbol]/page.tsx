@@ -8,8 +8,11 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CompositeScore } from '@/components/analysis/composite-score';
 import { IndicatorPanel } from '@/components/analysis/indicator-panel';
+import { SignalHistory } from '@/components/analysis/signal-history';
 import type { Asset, OHLCVData, TimeRange } from '@/types/market';
-import type { CompositeSignal } from '@/types/signals';
+import type { CompositeSignal, SignalType } from '@/types/signals';
+import { AISummaryCard } from '@/components/analysis/ai-summary-card';
+import { BacktestPanel } from '@/components/analysis/backtest-results';
 import dynamic from 'next/dynamic';
 
 const CandlestickChart = dynamic(
@@ -35,6 +38,9 @@ export default function AssetDetailPage({
 
   const [asset, setAsset] = useState<Asset | null>(null);
   const [signal, setSignal] = useState<CompositeSignal | null>(null);
+  const [signalHistoryData, setSignalHistoryData] = useState<
+    { symbol: string; signalType: SignalType; compositeScore: number; timestamp: number }[]
+  >([]);
   const [chartData, setChartData] = useState<OHLCVData[]>([]);
   const [timeRange, setTimeRange] = useState<TimeRange>('1M');
   const [loading, setLoading] = useState(true);
@@ -51,9 +57,10 @@ export default function AssetDetailPage({
             ? `/api/crypto/${symbol}`
             : `/api/stocks/${symbol}`;
 
-        const [assetRes, signalRes] = await Promise.allSettled([
+        const [assetRes, signalRes, historyRes] = await Promise.allSettled([
           fetch(assetUrl),
           fetch(`/api/signals/${assetType}/${symbol}`),
+          fetch(`/api/signals/history?symbol=${symbol}&assetType=${assetType}&limit=20`),
         ]);
 
         if (assetRes.status === 'fulfilled' && assetRes.value.ok) {
@@ -70,6 +77,18 @@ export default function AssetDetailPage({
         if (signalRes.status === 'fulfilled' && signalRes.value.ok) {
           const data = await signalRes.value.json();
           setSignal(data);
+        }
+
+        if (historyRes.status === 'fulfilled' && historyRes.value.ok) {
+          const data = await historyRes.value.json();
+          setSignalHistoryData(
+            (data.data ?? []).map((row: { symbol: string; signalType: string; compositeScore: number; createdAt: string }) => ({
+              symbol: row.symbol,
+              signalType: row.signalType as SignalType,
+              compositeScore: row.compositeScore,
+              timestamp: new Date(row.createdAt).getTime(),
+            })),
+          );
         }
       } catch {
         setError('Failed to load data');
@@ -139,7 +158,7 @@ export default function AssetDetailPage({
         </div>
 
         {/* Market stats */}
-        <div className="flex gap-6 text-xs text-muted-foreground">
+        <div className="flex flex-wrap gap-4 sm:gap-6 text-xs text-muted-foreground">
           {asset.marketCap != null && (
             <div>
               <p className="font-medium">Market Cap</p>
@@ -168,12 +187,12 @@ export default function AssetDetailPage({
       </div>
 
       {/* Chart Section */}
-      <div className="rounded-xl border border-border/50 bg-card p-4">
+      <div className="rounded-xl border border-border/50 bg-card p-2 sm:p-4">
         <CandlestickChart
           data={chartData}
           activeRange={timeRange}
           onTimeRangeChange={setTimeRange}
-          height={400}
+          height={300}
         />
       </div>
 
@@ -190,6 +209,20 @@ export default function AssetDetailPage({
           </p>
         </div>
       )}
+
+      {/* Signal History */}
+      {signalHistoryData.length > 0 && (
+        <SignalHistory
+          signals={signalHistoryData}
+          priceData={chartData.map((d) => ({ time: d.time, value: d.close }))}
+        />
+      )}
+
+      {/* Backtesting */}
+      <BacktestPanel symbol={symbol} assetType={assetType} />
+
+      {/* AI Analysis Summary */}
+      <AISummaryCard symbol={symbol} assetType={assetType} />
 
       {/* Signal metadata */}
       {signal && (

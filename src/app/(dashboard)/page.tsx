@@ -137,7 +137,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Watchlist widget */}
-      <div className="max-w-md">
+      <div className="max-w-full sm:max-w-md">
         <WatchlistWidget items={[]} />
       </div>
     </div>

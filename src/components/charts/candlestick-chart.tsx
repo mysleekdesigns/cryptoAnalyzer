@@ -230,13 +230,13 @@ export function CandlestickChart({
   return (
     <div className={cn("relative", className)}>
       {onTimeRangeChange && (
-        <div className="flex items-center gap-1 mb-2">
+        <div className="flex items-center gap-1 mb-2 overflow-x-auto">
           {TIME_RANGES.map((range) => (
             <button
               key={range}
               onClick={() => onTimeRangeChange(range)}
               className={cn(
-                "px-2.5 py-1 text-xs font-medium rounded transition-colors",
+                "min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 px-3 py-2 sm:px-2.5 sm:py-1 text-xs font-medium rounded transition-colors",
                 activeRange === range
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
@@ -247,7 +247,7 @@ export function CandlestickChart({
           ))}
         </div>
       )}
-      <div ref={containerRef} className="relative w-full">
+      <div ref={containerRef} className="relative w-full touch-pan-y">
         <div
           ref={tooltipRef}
           className="absolute z-10 pointer-events-none rounded-md border border-border bg-card p-2 shadow-lg"
