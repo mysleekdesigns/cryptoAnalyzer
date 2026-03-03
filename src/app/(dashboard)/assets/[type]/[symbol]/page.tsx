@@ -13,6 +13,7 @@ import type { Asset, OHLCVData, TimeRange } from '@/types/market';
 import type { CompositeSignal, SignalType } from '@/types/signals';
 import { AISummaryCard } from '@/components/analysis/ai-summary-card';
 import { BacktestPanel } from '@/components/analysis/backtest-results';
+import { CreateAlertDialog } from '@/components/alerts/create-alert-dialog';
 import dynamic from 'next/dynamic';
 
 const CandlestickChart = dynamic(
@@ -267,6 +268,7 @@ export default function AssetDetailPage({
           </svg>
           Add to Portfolio
         </Button>
+        <CreateAlertDialog />
       </div>
     </div>
   );

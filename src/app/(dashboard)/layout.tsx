@@ -5,6 +5,7 @@ import { useUIStore } from "@/lib/store/ui-store";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { MobileNav } from "@/components/layout/mobile-nav";
+import { useAlertChecker } from "@/hooks/use-alert-checker";
 
 export default function DashboardLayout({
   children,
@@ -12,6 +13,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const collapsed = useUIStore((s) => s.sidebarCollapsed);
+  useAlertChecker();
 
   return (
     <div className="min-h-screen">

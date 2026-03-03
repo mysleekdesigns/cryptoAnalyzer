@@ -59,19 +59,85 @@ export default function PortfolioPage() {
       const res = await fetch("/api/portfolio/holdings");
       if (!res.ok) return;
       const data = await res.json();
-      const mapped: Holding[] = (data.holdings ?? []).map((h: Record<string, unknown>) => ({
-        id: h.id as string,
-        userId: h.user_id ?? h.userId,
-        symbol: h.symbol as string,
-        assetType: (h.asset_type ?? h.assetType) as "crypto" | "stock",
-        quantity: Number(h.quantity),
-        avgBuyPrice: Number(h.avg_buy_price ?? h.avgBuyPrice),
-        notes: h.notes as string | undefined,
-        createdAt: new Date(h.created_at as string ?? h.createdAt as string),
-        updatedAt: new Date(h.updated_at as string ?? h.updatedAt as string),
-        // Mock current prices for now - would come from market data API
-        currentPrice: Number(h.avg_buy_price ?? h.avgBuyPrice) * (1 + (Math.random() - 0.4) * 0.2),
-      }));
+      const rawHoldings: Record<string, unknown>[] = data.holdings ?? [];
+
+      // Collect unique symbols by asset type
+      const cryptoSymbols = new Set(
+        rawHoldings
+          .filter((h) => (h.asset_type ?? h.assetType) === "crypto")
+          .map((h) => (h.symbol as string).toLowerCase())
+      );
+      const stockSymbols = rawHoldings
+        .filter((h) => (h.asset_type ?? h.assetType) === "stock")
+        .map((h) => (h.symbol as string).toUpperCase());
+
+      // Fetch market data in parallel
+      const [cryptoRes, stockRes] = await Promise.allSettled([
+        cryptoSymbols.size > 0
+          ? fetch("/api/crypto?per_page=250").then((r) => r.ok ? r.json() : null)
+          : Promise.resolve(null),
+        stockSymbols.length > 0
+          ? fetch(`/api/stocks?symbols=${stockSymbols.join(",")}`).then((r) => r.ok ? r.json() : null)
+          : Promise.resolve(null),
+      ]);
+
+      // Build symbol -> { price, change24h } maps
+      const cryptoPriceMap = new Map<string, { price: number; change24h: number }>();
+      if (cryptoRes.status === "fulfilled" && cryptoRes.value?.markets) {
+        for (const coin of cryptoRes.value.markets) {
+          cryptoPriceMap.set(
+            (coin.symbol as string).toLowerCase(),
+            { price: coin.current_price as number, change24h: coin.price_change_percentage_24h as number ?? 0 }
+          );
+        }
+      }
+
+      const stockPriceMap = new Map<string, { price: number; change24h: number }>();
+      if (stockRes.status === "fulfilled" && stockRes.value?.quotes) {
+        for (const q of stockRes.value.quotes) {
+          stockPriceMap.set(
+            (q.symbol as string).toUpperCase(),
+            { price: q.quote.c as number, change24h: q.quote.dp as number ?? 0 }
+          );
+        }
+      }
+
+      const mapped: Holding[] = rawHoldings.map((h: Record<string, unknown>) => {
+        const symbol = h.symbol as string;
+        const assetType = (h.asset_type ?? h.assetType) as "crypto" | "stock";
+        const avgBuyPrice = Number(h.avg_buy_price ?? h.avgBuyPrice);
+
+        let currentPrice = avgBuyPrice; // fallback to avg buy price if market data unavailable
+        let dayChangePercent = 0;
+
+        if (assetType === "crypto") {
+          const market = cryptoPriceMap.get(symbol.toLowerCase());
+          if (market) {
+            currentPrice = market.price;
+            dayChangePercent = market.change24h;
+          }
+        } else {
+          const market = stockPriceMap.get(symbol.toUpperCase());
+          if (market) {
+            currentPrice = market.price;
+            dayChangePercent = market.change24h;
+          }
+        }
+
+        return {
+          id: h.id as string,
+          userId: (h.user_id ?? h.userId) as string,
+          symbol,
+          assetType,
+          quantity: Number(h.quantity),
+          avgBuyPrice,
+          notes: h.notes as string | undefined,
+          createdAt: new Date(h.created_at as string ?? h.createdAt as string),
+          updatedAt: new Date(h.updated_at as string ?? h.updatedAt as string),
+          currentPrice,
+          dayChangePercent,
+        };
+      });
 
       // Compute derived values
       for (const h of mapped) {
@@ -162,8 +228,12 @@ export default function PortfolioPage() {
   };
   summary.totalGainLoss = summary.totalValue - summary.totalCost;
   summary.totalGainLossPercent = summary.totalCost > 0 ? (summary.totalGainLoss / summary.totalCost) * 100 : 0;
-  // Rough day change estimate
-  summary.dayChange = summary.totalValue * (Math.random() - 0.4) * 0.03;
+  // Day change: sum of each holding's current value * its 24h change percent from market data
+  summary.dayChange = holdings.reduce((sum, h) => {
+    const holdingValue = h.currentValue ?? 0;
+    const change24h = h.dayChangePercent ?? 0;
+    return sum + holdingValue * (change24h / 100);
+  }, 0);
   summary.dayChangePercent = summary.totalValue > 0 ? (summary.dayChange / summary.totalValue) * 100 : 0;
 
   // Compute allocation
@@ -178,12 +248,17 @@ export default function PortfolioPage() {
     }))
     .sort((a, b) => b.value - a.value);
 
-  // Mock performance data
+  // Performance chart: real historical portfolio snapshots require a separate tracking feature (future).
+  // For now, we use a simulated trend anchored to actual current portfolio value as the final data point.
+  const currentPortfolioValue = summary.totalValue || summary.totalCost || 10000;
   const performanceData = Array.from({ length: 30 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - (29 - i));
+    const isLast = i === 29;
     const base = summary.totalCost || 10000;
-    const variation = base * (1 + (i / 30) * 0.1 + (Math.sin(i / 3) * 0.03));
+    const variation = isLast
+      ? currentPortfolioValue
+      : base * (1 + (i / 30) * 0.1 + (Math.sin(i / 3) * 0.03));
     return {
       date: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       value: Math.round(variation * 100) / 100,

@@ -86,27 +86,11 @@ function AlertRow({ alert }: { alert: PriceAlert }) {
 }
 
 export function AlertsManagement() {
-  const { alerts, isLoading, error, fetchAlerts, checkAlerts } =
-    useAlertStore();
+  const { alerts, isLoading, error, fetchAlerts } = useAlertStore();
 
   useEffect(() => {
     fetchAlerts();
   }, [fetchAlerts]);
-
-  // Poll for triggered alerts every 60 seconds
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      const triggered = await checkAlerts();
-      for (const alert of triggered) {
-        toast.success(
-          `Alert triggered: ${alert.symbol.toUpperCase()} went ${alert.condition} $${parseFloat(alert.targetPrice).toLocaleString()}`,
-          { duration: 10000 }
-        );
-      }
-    }, 60_000);
-
-    return () => clearInterval(interval);
-  }, [checkAlerts]);
 
   return (
     <Card>

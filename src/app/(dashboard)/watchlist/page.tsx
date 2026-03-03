@@ -328,27 +328,47 @@ export default function WatchlistPage() {
     setIsAnalyzing(true);
 
     try {
-      // Generate mock signal scores based on price change data
-      // In production this would call the real signal engine API
-      const updated = watchlist.map((item): WatchlistRow => {
-        const raw = Math.min(
-          100,
-          Math.max(0, 50 + (item.priceChangePercent24h ?? 0) * 3)
-        );
-        const score = Math.round(raw);
-        const signal = formatSignalScore(score);
-        return {
-          ...item,
-          signalScore: score,
-          signalLabel: signal.label,
-          signalColorClass: signal.colorClass,
-          signalBgClass: signal.bgClass,
-        };
-      });
-      setWatchlist(updated);
-      toast.success(
-        `Analyzed ${updated.length} asset${updated.length !== 1 ? "s" : ""}`
+      const results = await Promise.allSettled(
+        watchlist.map((item) =>
+          fetch(`/api/signals/${item.assetType}/${item.symbol}`).then((res) =>
+            res.json()
+          )
+        )
       );
+
+      let successCount = 0;
+      let failCount = 0;
+
+      const updated = watchlist.map((item, i): WatchlistRow => {
+        const result = results[i];
+        if (result.status === "fulfilled" && result.value?.signal?.compositeScore != null) {
+          const score = Math.round(result.value.signal.compositeScore);
+          const signal = formatSignalScore(score);
+          successCount++;
+          return {
+            ...item,
+            signalScore: score,
+            signalLabel: signal.label,
+            signalColorClass: signal.colorClass,
+            signalBgClass: signal.bgClass,
+          };
+        }
+        failCount++;
+        return item;
+      });
+
+      setWatchlist(updated);
+
+      if (successCount > 0) {
+        toast.success(
+          `Analyzed ${successCount} asset${successCount !== 1 ? "s" : ""}`
+        );
+      }
+      if (failCount > 0) {
+        toast.error(
+          `Failed to analyze ${failCount} asset${failCount !== 1 ? "s" : ""}`
+        );
+      }
     } catch {
       toast.error("Failed to analyze signals");
     } finally {

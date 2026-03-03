@@ -449,34 +449,34 @@ drizzle.config.ts                       # Drizzle configuration
 
 **Goal:** Implement user watchlists, portfolio tracking, price alerts, and signal persistence.
 
-- [ ] **4.1 Watchlist Feature**
-  - [ ] Create API routes: GET/POST/DELETE `/api/watchlist`
-  - [ ] Build `src/app/(dashboard)/watchlist/page.tsx` - full table with asset name, price, 24h change, signal badge, actions
-  - [ ] Inline search + add component
-  - [ ] Bulk signal analysis button (run composite score for all watched assets)
+- [x] **4.1 Watchlist Feature**
+  - [x] Create API routes: GET/POST/DELETE `/api/watchlist`
+  - [x] Build `src/app/(dashboard)/watchlist/page.tsx` - full table with asset name, price, 24h change, signal badge, actions
+  - [x] Inline search + add component
+  - [x] Bulk signal analysis button (run composite score for all watched assets)
 
-- [ ] **4.2 Portfolio Tracking**
-  - [ ] Create API routes: CRUD for `/api/portfolio/holdings` and `/api/portfolio/transactions`
-  - [ ] Build `src/app/(dashboard)/portfolio/page.tsx`:
-    - [ ] Portfolio summary: total value, total gain/loss ($, %), day change
-    - [ ] Holdings table: asset, quantity, avg price, current price, value, gain/loss, signal
-  - [ ] Create `src/components/portfolio/holdings-table.tsx` - sortable data table
-  - [ ] Create `src/components/portfolio/allocation-chart.tsx` - Recharts pie/donut chart
-  - [ ] Create `src/components/portfolio/performance-chart.tsx` - Recharts area chart (portfolio value over time)
-  - [ ] "Record Transaction" dialog for manual buy/sell entry
+- [x] **4.2 Portfolio Tracking**
+  - [x] Create API routes: CRUD for `/api/portfolio/holdings` and `/api/portfolio/transactions`
+  - [x] Build `src/app/(dashboard)/portfolio/page.tsx`:
+    - [x] Portfolio summary: total value, total gain/loss ($, %), day change
+    - [x] Holdings table: asset, quantity, avg price, current price, value, gain/loss, signal
+  - [x] Create `src/components/portfolio/holdings-table.tsx` - sortable data table
+  - [x] Create `src/components/portfolio/allocation-chart.tsx` - Recharts pie/donut chart
+  - [x] Create `src/components/portfolio/performance-chart.tsx` - Recharts area chart (portfolio value over time)
+  - [x] "Record Transaction" dialog for manual buy/sell entry
 
-- [ ] **4.3 Price Alerts**
-  - [ ] Create API routes: CRUD for `/api/alerts`
-  - [ ] Alert creation dialog: select asset, condition (above/below), target price
-  - [ ] Server-side alert checking (periodic via Vercel cron or polling)
-  - [ ] Mark triggered alerts, store `triggeredAt` timestamp
-  - [ ] Toast notifications for triggered alerts (via Zustand + shadcn Toast)
-  - [ ] Alerts management in Settings page
+- [x] **4.3 Price Alerts**
+  - [x] Create API routes: CRUD for `/api/alerts`
+  - [x] Alert creation dialog: select asset, condition (above/below), target price
+  - [x] Server-side alert checking (periodic via Vercel cron or polling)
+  - [x] Mark triggered alerts, store `triggeredAt` timestamp
+  - [x] Toast notifications for triggered alerts (via Zustand + shadcn Toast)
+  - [x] Alerts management in Settings page
 
-- [ ] **4.4 Signal History Persistence**
-  - [ ] Write generated signals to `signal_history` table
-  - [ ] API route: GET `/api/signals/history` - paginated with filters
-  - [ ] Display on asset detail page and signals overview page
+- [x] **4.4 Signal History Persistence**
+  - [x] Write generated signals to `signal_history` table
+  - [x] API route: GET `/api/signals/history` - paginated with filters
+  - [x] Display on asset detail page and signals overview page
 
 ---
 

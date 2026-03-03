@@ -18,6 +18,7 @@ export interface Holding {
   currentValue?: number;
   totalGainLoss?: number;
   totalGainLossPercent?: number;
+  dayChangePercent?: number;
   signal?: SignalType;
 }
 
