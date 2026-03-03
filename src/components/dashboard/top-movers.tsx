@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { cn } from "@/lib/utils/index";
 import { formatCurrency, formatPercent } from "@/lib/utils/formatters";
 import type { Asset } from "@/types/market";
@@ -24,19 +25,29 @@ function MoverItem({ asset }: { asset: Asset }) {
 
   return (
     <div
-      className="flex items-center justify-between gap-2 py-2 px-2 rounded-md cursor-pointer hover:bg-secondary/30 transition-colors"
+      className="flex items-center justify-between gap-2 py-2 px-2 rounded-md cursor-pointer hover:bg-secondary/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      role="link"
+      tabIndex={0}
+      aria-label={`View ${asset.symbol.toUpperCase()} details`}
       onClick={() =>
         router.push(`/assets/${asset.assetType}/${asset.symbol}`)
       }
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          router.push(`/assets/${asset.assetType}/${asset.symbol}`);
+        }
+      }}
     >
       <div className="flex items-center gap-2 min-w-0">
         {asset.image ? (
-          <img
+          <Image
             src={asset.image}
             alt={asset.name}
             width={20}
             height={20}
             className="rounded-full shrink-0"
+            loading="lazy"
           />
         ) : (
           <div className="size-5 rounded-full bg-secondary shrink-0" />

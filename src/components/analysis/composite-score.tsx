@@ -76,12 +76,13 @@ export function CompositeScore({ signal }: CompositeScoreProps) {
       </CardHeader>
       <CardContent className="flex flex-col items-center gap-4">
         {/* Circular Gauge */}
-        <div className="relative" style={{ width: size, height: size }}>
+        <div className="relative" style={{ width: size, height: size }} role="img" aria-label={`Composite signal score: ${Math.round(signal.compositeScore)} out of 100, ${label}`}>
           <svg
             width={size}
             height={size}
             className="overflow-visible"
             style={{ transform: `rotate(${rotation}deg)` }}
+            aria-hidden="true"
           >
             {/* Background arc */}
             <circle
@@ -133,6 +134,7 @@ export function CompositeScore({ signal }: CompositeScoreProps) {
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>

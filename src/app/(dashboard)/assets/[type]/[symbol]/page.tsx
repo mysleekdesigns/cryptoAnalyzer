@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, use } from 'react';
+import Image from 'next/image';
 import { cn } from '@/lib/utils/index';
 import { formatCurrency, formatPercent, formatLargeNumber, formatDate } from '@/lib/utils/formatters';
 import { Button } from '@/components/ui/button';
@@ -11,8 +12,6 @@ import { IndicatorPanel } from '@/components/analysis/indicator-panel';
 import { SignalHistory } from '@/components/analysis/signal-history';
 import type { Asset, OHLCVData, TimeRange } from '@/types/market';
 import type { CompositeSignal, SignalType } from '@/types/signals';
-import { AISummaryCard } from '@/components/analysis/ai-summary-card';
-import { BacktestPanel } from '@/components/analysis/backtest-results';
 import { CreateAlertDialog } from '@/components/alerts/create-alert-dialog';
 import dynamic from 'next/dynamic';
 
@@ -22,10 +21,26 @@ const CandlestickChart = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-full items-center justify-center rounded-lg border border-dashed border-border/50 bg-background/50">
+      <div className="flex h-[300px] items-center justify-center rounded-lg border border-dashed border-border/50 bg-background/50">
         <p className="text-sm text-muted-foreground">Loading chart...</p>
       </div>
     ),
+  }
+);
+
+const BacktestPanel = dynamic(
+  () =>
+    import('@/components/analysis/backtest-results').then((mod) => mod.BacktestPanel),
+  {
+    loading: () => <Skeleton className="h-[200px] w-full rounded-xl" />,
+  }
+);
+
+const AISummaryCard = dynamic(
+  () =>
+    import('@/components/analysis/ai-summary-card').then((mod) => mod.AISummaryCard),
+  {
+    loading: () => <Skeleton className="h-[160px] w-full rounded-xl" />,
   }
 );
 
@@ -124,12 +139,13 @@ export default function AssetDetailPage({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex items-center gap-3">
           {asset.image && (
-            <img
+            <Image
               src={asset.image}
               alt={asset.name}
               width={40}
               height={40}
               className="rounded-full"
+              priority
             />
           )}
           <div>
@@ -245,6 +261,7 @@ export default function AssetDetailPage({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
+            aria-hidden="true"
           >
             <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
           </svg>
@@ -261,6 +278,7 @@ export default function AssetDetailPage({
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
+            aria-hidden="true"
           >
             <circle cx="12" cy="12" r="10" />
             <line x1="12" y1="8" x2="12" y2="16" />

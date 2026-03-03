@@ -126,6 +126,8 @@ export function PriceChart({
   return (
     <div
       ref={containerRef}
+      role="img"
+      aria-label="Price trend chart"
       className={cn("w-full", className)}
     />
   );

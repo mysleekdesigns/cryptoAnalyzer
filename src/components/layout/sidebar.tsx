@@ -40,6 +40,7 @@ export function Sidebar() {
   return (
     <TooltipProvider delayDuration={0}>
       <aside
+        aria-label="Main navigation"
         className={cn(
           "fixed inset-y-0 left-0 z-30 flex flex-col border-r border-border/50 bg-sidebar transition-all duration-300 ease-in-out",
           "before:pointer-events-none before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/[0.03] before:to-transparent",
@@ -124,6 +125,7 @@ export function Sidebar() {
             variant="ghost"
             size="sm"
             onClick={toggleSidebar}
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             className="w-full justify-center text-muted-foreground hover:text-foreground"
           >
             {collapsed ? (

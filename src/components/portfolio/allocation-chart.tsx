@@ -28,7 +28,7 @@ export function AllocationChart({ data }: AllocationChartProps) {
   }));
 
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4" role="img" aria-label="Portfolio allocation pie chart">
       <ResponsiveContainer width="100%" height={250}>
         <PieChart>
           <Pie

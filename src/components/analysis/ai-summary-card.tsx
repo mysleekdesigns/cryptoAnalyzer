@@ -67,6 +67,7 @@ export function AISummaryCard({ symbol, assetType }: AISummaryCardProps) {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
+            aria-hidden="true"
           >
             <path d="M12 2a4 4 0 0 0-4 4c0 2 1.3 3.7 2 5h4c.7-1.3 2-3 2-5a4 4 0 0 0-4-4Z" />
             <path d="M10 11v3a2 2 0 0 0 4 0v-3" />

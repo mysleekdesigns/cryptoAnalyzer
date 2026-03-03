@@ -97,7 +97,7 @@ function PriceChartWithSignals({
     });
 
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+    <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto" role="img" aria-label="Price chart with buy and sell signal markers">
       <defs>
         <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="hsl(var(--chart-1))" stopOpacity="0.2" />

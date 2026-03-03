@@ -430,7 +430,7 @@ export function IndicatorOverlay({
 
   return (
     <div className={cn("space-y-2", className)}>
-      <div className="flex flex-wrap items-center gap-1.5">
+      <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Indicator toggles">
         {(Object.keys(INDICATOR_LABELS) as (keyof ToggleState)[]).map((key) => {
           const available = hasData(key);
           return (
@@ -438,8 +438,10 @@ export function IndicatorOverlay({
               key={key}
               onClick={() => available && toggle(key)}
               disabled={!available}
+              aria-pressed={toggles[key]}
+              aria-label={`Toggle ${INDICATOR_LABELS[key]} indicator`}
               className={cn(
-                "flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded border transition-colors",
+                "flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 toggles[key]
                   ? "border-border bg-secondary text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground hover:bg-secondary/50",
@@ -461,7 +463,7 @@ export function IndicatorOverlay({
           <div className="text-[10px] text-muted-foreground mb-0.5 uppercase tracking-wider">
             RSI (14)
           </div>
-          <div ref={rsiContainerRef} className="w-full" />
+          <div ref={rsiContainerRef} className="w-full" role="img" aria-label="RSI indicator chart" />
         </div>
       )}
 
@@ -470,7 +472,7 @@ export function IndicatorOverlay({
           <div className="text-[10px] text-muted-foreground mb-0.5 uppercase tracking-wider">
             MACD (12, 26, 9)
           </div>
-          <div ref={macdContainerRef} className="w-full" />
+          <div ref={macdContainerRef} className="w-full" role="img" aria-label="MACD indicator chart" />
         </div>
       )}
     </div>

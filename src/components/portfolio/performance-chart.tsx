@@ -35,7 +35,7 @@ export function PerformanceChart({ data }: PerformanceChartProps) {
 
   return (
     <ResponsiveContainer width="100%" height={250}>
-      <AreaChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+      <AreaChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }} role="img" aria-label="Portfolio performance chart over 30 days">
         <defs>
           <linearGradient id="fillPositive" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="hsl(var(--chart-up))" stopOpacity={0.3} />

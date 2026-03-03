@@ -23,7 +23,7 @@ export function MobileNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden safe-area-bottom">
+    <nav aria-label="Mobile navigation" className="fixed inset-x-0 bottom-0 z-30 border-t border-border/50 bg-background/95 backdrop-blur-xl md:hidden safe-area-bottom">
       <div className="flex h-16 items-center justify-around px-1">
         {tabs.map((tab) => {
           const isActive =

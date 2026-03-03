@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useMemo } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils/index";
 import {
   formatCurrency,
@@ -406,13 +407,14 @@ export default function WatchlistPage() {
         <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
         <Input
           placeholder="Search assets to add..."
+          aria-label="Search assets to add to watchlist"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="pl-9"
         />
         {/* Search dropdown */}
         {searchQuery.trim() && (
-          <div className="absolute z-50 mt-1 w-full rounded-lg border bg-popover shadow-lg">
+          <div className="absolute z-50 mt-1 w-full rounded-lg border bg-popover shadow-lg" role="listbox" aria-label="Search results">
             {filteredSearch.length === 0 ? (
               <div className="px-4 py-3 text-sm text-muted-foreground">
                 No assets found
@@ -420,18 +422,21 @@ export default function WatchlistPage() {
             ) : (
               filteredSearch.map((result) => (
                 <button
+                  role="option"
+                  aria-selected={false}
                   key={result.id}
                   onClick={() => handleAdd(result)}
                   disabled={addingSymbol === result.symbol}
                   className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-muted/50 disabled:opacity-50 first:rounded-t-lg last:rounded-b-lg"
                 >
                   {result.image ? (
-                    <img
+                    <Image
                       src={result.image}
                       alt={result.name}
                       width={24}
                       height={24}
                       className="rounded-full"
+                      loading="lazy"
                     />
                   ) : (
                     <div className="size-6 rounded-full bg-secondary" />
@@ -507,12 +512,13 @@ export default function WatchlistPage() {
                           className="flex items-center gap-2 hover:underline"
                         >
                           {item.image ? (
-                            <img
+                            <Image
                               src={item.image}
                               alt={item.name ?? item.symbol}
                               width={24}
                               height={24}
                               className="rounded-full"
+                              loading="lazy"
                             />
                           ) : (
                             <div className="size-6 rounded-full bg-secondary" />
@@ -597,7 +603,8 @@ export default function WatchlistPage() {
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="size-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                                aria-label={`Remove ${item.symbol.toUpperCase()} from watchlist`}
+                                className="size-8 opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
                                 onClick={() =>
                                   handleRemove(item.id, item.symbol)
                                 }

@@ -106,6 +106,8 @@ export function VolumeChart({
   return (
     <div
       ref={containerRef}
+      role="img"
+      aria-label="Trading volume chart"
       className={cn("w-full", className)}
     />
   );

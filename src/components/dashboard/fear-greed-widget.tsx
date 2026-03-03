@@ -44,6 +44,8 @@ function GaugeArc({ value }: { value: number }) {
     <svg
       viewBox={`0 0 ${size} ${size / 2 + 30}`}
       className="w-full max-w-[220px] mx-auto"
+      role="img"
+      aria-label={`Fear and Greed gauge showing ${value} out of 100`}
     >
       <defs>
         <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">

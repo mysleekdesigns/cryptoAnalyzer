@@ -40,11 +40,12 @@ export function Header() {
       </Button>
 
       {/* Search */}
-      <div className="relative flex-1 max-w-md min-w-0">
-        <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+      <div className="relative flex-1 max-w-md min-w-0" role="search">
+        <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
         <Input
           type="search"
           placeholder="Search assets, signals..."
+          aria-label="Search assets and signals"
           className="h-8 bg-muted/50 pl-8 text-sm border-transparent focus-visible:border-border"
         />
       </div>

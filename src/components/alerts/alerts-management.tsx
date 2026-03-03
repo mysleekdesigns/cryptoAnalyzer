@@ -63,7 +63,7 @@ function AlertRow({ alert }: { alert: PriceAlert }) {
             variant="ghost"
             size="icon"
             onClick={handleToggle}
-            title={alert.isActive ? "Pause alert" : "Reactivate alert"}
+            title={alert.isActive ? "Disable alert" : "Enable alert"}
           >
             {alert.isActive ? (
               <BellIcon className="size-4" />

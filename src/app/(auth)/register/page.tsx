@@ -64,7 +64,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
+    <div id="main-content" className="flex min-h-screen items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
@@ -75,7 +75,7 @@ export default function RegisterPage() {
         <CardContent>
           <form onSubmit={handleSubmit} className="grid gap-4">
             {error && (
-              <div className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              <div role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
                 {error}
               </div>
             )}

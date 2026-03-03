@@ -169,6 +169,7 @@ export function HoldingsTable({ holdings, onDelete }: HoldingsTableProps) {
                     <Button
                       variant="ghost"
                       size="icon"
+                      aria-label={`Delete ${holding.symbol} holding`}
                       className="size-7 text-muted-foreground hover:text-destructive"
                       onClick={() => onDelete(holding.id)}
                     >

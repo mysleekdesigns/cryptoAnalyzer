@@ -484,45 +484,45 @@ drizzle.config.ts                       # Drizzle configuration
 
 **Goal:** Backtesting, AI analysis, custom indicator weights, PWA, and performance polish.
 
-- [ ] **5.1 Backtesting Engine**
-  - [ ] Create `src/lib/engine/backtester.ts`:
-    - [ ] Iterate historical data, generate signals at each point
-    - [ ] Simulate trades: buy on BUY/STRONG_BUY, sell on SELL/STRONG_SELL
-    - [ ] Calculate: total trades, win rate, avg gain/loss, max drawdown, Sharpe ratio
-  - [ ] Create API route: POST `/api/backtest` (symbol, date range, optional custom weights)
-  - [ ] Build backtest results UI:
-    - [ ] Performance chart with buy/sell markers overlaid on price
-    - [ ] Stats summary: win rate, profit factor, total return, max drawdown
-    - [ ] Compare default vs custom weights
+- [x] **5.1 Backtesting Engine**
+  - [x] Create `src/lib/engine/backtester.ts`:
+    - [x] Iterate historical data, generate signals at each point
+    - [x] Simulate trades: buy on BUY/STRONG_BUY, sell on SELL/STRONG_SELL
+    - [x] Calculate: total trades, win rate, avg gain/loss, max drawdown, Sharpe ratio
+  - [x] Create API route: POST `/api/backtest` (symbol, date range, optional custom weights)
+  - [x] Build backtest results UI:
+    - [x] Performance chart with buy/sell markers overlaid on price
+    - [x] Stats summary: win rate, profit factor, total return, max drawdown
+    - [x] Compare default vs custom weights
 
-- [ ] **5.2 AI Analysis Summaries (Claude API)**
-  - [ ] Install `@anthropic-ai/sdk`
-  - [ ] Create API route: POST `/api/analysis/summary`
-    - [ ] Input: symbol, indicator values, sentiment, recent price action
-    - [ ] Prompt Claude for 2-3 paragraph analysis (technical setup, key levels, risk factors)
-    - [ ] Cache response for 30 minutes per asset
-  - [ ] Display AI summary card on asset detail page
-  - [ ] Rate limit: max 10 summaries per user per hour
+- [x] **5.2 AI Analysis Summaries (Claude API)**
+  - [x] Install `@anthropic-ai/sdk`
+  - [x] Create API route: POST `/api/analysis/summary`
+    - [x] Input: symbol, indicator values, sentiment, recent price action
+    - [x] Prompt Claude for 2-3 paragraph analysis (technical setup, key levels, risk factors)
+    - [x] Cache response for 30 minutes per asset
+  - [x] Display AI summary card on asset detail page
+  - [x] Rate limit: max 10 summaries per user per hour
 
-- [ ] **5.3 Custom Indicator Configuration**
-  - [ ] Settings page section with slider for each indicator weight (must sum to 1.0)
-  - [ ] Preset configurations: "Conservative", "Aggressive", "Momentum", "Mean Reversion"
-  - [ ] Save to `user_preferences.indicatorWeights` in DB
-  - [ ] Pass custom weights through signal pipeline
-  - [ ] Show "Custom" badge on signals when non-default weights active
+- [x] **5.3 Custom Indicator Configuration**
+  - [x] Settings page section with slider for each indicator weight (must sum to 1.0)
+  - [x] Preset configurations: "Conservative", "Aggressive", "Momentum", "Mean Reversion"
+  - [x] Save to `user_preferences.indicatorWeights` in DB
+  - [x] Pass custom weights through signal pipeline
+  - [x] Show "Custom" badge on signals when non-default weights active
 
-- [ ] **5.4 PWA & Mobile Optimization**
-  - [ ] Add `manifest.json` for PWA (name, icons, theme color, display: standalone)
-  - [ ] Service worker for offline caching of static assets
-  - [ ] Responsive at all breakpoints (320px, 375px, 768px, 1024px, 1440px)
-  - [ ] Bottom tab navigation on mobile replaces sidebar
-  - [ ] Touch-optimized chart interactions (pinch zoom, swipe time range)
+- [x] **5.4 PWA & Mobile Optimization**
+  - [x] Add `manifest.json` for PWA (name, icons, theme color, display: standalone)
+  - [x] Service worker for offline caching of static assets
+  - [x] Responsive at all breakpoints (320px, 375px, 768px, 1024px, 1440px)
+  - [x] Bottom tab navigation on mobile replaces sidebar
+  - [x] Touch-optimized chart interactions (pinch zoom, swipe time range)
 
-- [ ] **5.5 Performance & Polish**
-  - [ ] Loading skeletons for all data-fetching components (shadcn Skeleton)
-  - [ ] Error boundaries with retry buttons
-  - [ ] Bundle optimization: dynamic imports for chart components, lazy load below-fold content
-  - [ ] `<Suspense>` boundaries around async Server Components
+- [x] **5.5 Performance & Polish**
+  - [x] Loading skeletons for all data-fetching components (shadcn Skeleton)
+  - [x] Error boundaries with retry buttons
+  - [x] Bundle optimization: dynamic imports for chart components, lazy load below-fold content
+  - [x] `<Suspense>` boundaries around async Server Components
   - [ ] Lighthouse audit targeting 90+ Performance, Accessibility, Best Practices
 
 ---

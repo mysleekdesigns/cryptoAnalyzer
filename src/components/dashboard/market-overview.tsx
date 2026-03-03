@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { cn } from "@/lib/utils/index";
 import {
   formatCurrency,
@@ -38,7 +39,7 @@ function MiniSparkline({ data, up }: { data: number[]; up: boolean }) {
   });
 
   return (
-    <svg width={width} height={height} className="shrink-0">
+    <svg width={width} height={height} className="shrink-0" aria-hidden="true">
       <polyline
         fill="none"
         stroke={up ? "var(--color-chart-up)" : "var(--color-chart-down)"}
@@ -55,10 +56,19 @@ function AssetRow({ asset }: { asset: Asset }) {
 
   return (
     <tr
-      className="group cursor-pointer border-b border-border/50 last:border-0 hover:bg-secondary/30 transition-colors"
+      className="group cursor-pointer border-b border-border/50 last:border-0 hover:bg-secondary/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      tabIndex={0}
+      role="link"
+      aria-label={`View ${asset.name} details`}
       onClick={() =>
         router.push(`/assets/${asset.assetType}/${asset.symbol}`)
       }
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          router.push(`/assets/${asset.assetType}/${asset.symbol}`);
+        }
+      }}
     >
       <td className="py-3 pr-2 text-xs text-muted-foreground w-8 text-right">
         {asset.rank ?? "-"}
@@ -66,12 +76,13 @@ function AssetRow({ asset }: { asset: Asset }) {
       <td className="py-3 px-2">
         <div className="flex items-center gap-2">
           {asset.image ? (
-            <img
+            <Image
               src={asset.image}
               alt={asset.name}
               width={24}
               height={24}
               className="rounded-full shrink-0"
+              loading="lazy"
             />
           ) : (
             <div className="size-6 rounded-full bg-secondary shrink-0" />

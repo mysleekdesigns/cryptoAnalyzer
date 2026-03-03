@@ -228,15 +228,16 @@ export function CandlestickChart({
   }, [data]);
 
   return (
-    <div className={cn("relative", className)}>
+    <div className={cn("relative", className)} role="img" aria-label="Price candlestick chart">
       {onTimeRangeChange && (
-        <div className="flex items-center gap-1 mb-2 overflow-x-auto">
+        <div className="flex items-center gap-1 mb-2 overflow-x-auto" role="group" aria-label="Time range selection">
           {TIME_RANGES.map((range) => (
             <button
               key={range}
               onClick={() => onTimeRangeChange(range)}
+              aria-pressed={activeRange === range}
               className={cn(
-                "min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 px-3 py-2 sm:px-2.5 sm:py-1 text-xs font-medium rounded transition-colors",
+                "min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 px-3 py-2 sm:px-2.5 sm:py-1 text-xs font-medium rounded transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 activeRange === range
                   ? "bg-secondary text-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
@@ -250,6 +251,7 @@ export function CandlestickChart({
       <div ref={containerRef} className="relative w-full touch-pan-y">
         <div
           ref={tooltipRef}
+          aria-hidden="true"
           className="absolute z-10 pointer-events-none rounded-md border border-border bg-card p-2 shadow-lg"
           style={{ display: "none", width: 180 }}
         />

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils/index";
 import { formatCurrency, formatSignalScore } from "@/lib/utils/formatters";
 import {
@@ -67,12 +68,13 @@ export function WatchlistWidget({ items }: WatchlistWidgetProps) {
                 >
                   <div className="flex items-center gap-2 min-w-0">
                     {item.image ? (
-                      <img
+                      <Image
                         src={item.image}
                         alt={item.name}
                         width={20}
                         height={20}
                         className="rounded-full shrink-0"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="size-5 rounded-full bg-secondary shrink-0" />

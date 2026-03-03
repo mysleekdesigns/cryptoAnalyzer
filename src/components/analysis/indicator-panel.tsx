@@ -66,7 +66,7 @@ export function IndicatorPanel({ indicators }: IndicatorPanelProps) {
               </div>
 
               {/* Score bar */}
-              <div className="mt-2 flex items-center gap-3">
+              <div className="mt-2 flex items-center gap-3" role="meter" aria-valuenow={Math.round(indicator.score)} aria-valuemin={0} aria-valuemax={100} aria-label={`${INDICATOR_LABELS[indicator.type] ?? indicator.type} score`}>
                 <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-muted/40">
                   <div
                     className={cn(

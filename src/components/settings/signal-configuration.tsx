@@ -43,7 +43,7 @@ function WeightBar({ weights }: { weights: IndicatorWeights }) {
 
   return (
     <div className="space-y-2">
-      <div className="flex h-3 w-full overflow-hidden rounded-full">
+      <div className="flex h-3 w-full overflow-hidden rounded-full" role="img" aria-label="Weight distribution across indicators">
         {(Object.keys(INDICATOR_LABELS) as (keyof IndicatorWeights)[]).map((key) => (
           <div
             key={key}
@@ -163,6 +163,7 @@ export function SignalConfiguration() {
                     min={0}
                     max={50}
                     step={5}
+                    aria-label={`${INDICATOR_LABELS[key].label} weight`}
                     onValueChange={([v]) => setWeight(key, v / 100)}
                   />
                 </div>

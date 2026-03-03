@@ -116,9 +116,9 @@ export default function DashboardPage() {
         <TopMovers assets={assets} isLoading={isLoadingMarket} />
 
         <div className="space-y-4">
-          <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+          <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
             Signal Highlights
-          </h3>
+          </h2>
           {isLoadingMarket ? (
             <div className="space-y-3">
               {Array.from({ length: 4 }).map((_, i) => (
