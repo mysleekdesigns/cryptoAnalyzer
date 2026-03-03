@@ -397,51 +397,51 @@ drizzle.config.ts                       # Drizzle configuration
 
 **Goal:** Build the main dashboard, TradingView chart integration, asset detail pages, and signal display.
 
-- [ ] **3.1 TradingView Lightweight Charts**
-  - [ ] Install `lightweight-charts` npm package
-  - [ ] Create `src/components/charts/candlestick-chart.tsx`:
-    - [ ] Initialize `createChart()` with dark theme
-    - [ ] Accept OHLCV data as prop, render candlestick series
-    - [ ] Time range selector (1D, 1W, 1M, 3M, 1Y, ALL)
-    - [ ] Auto-resize on container resize
-    - [ ] Crosshair tooltip with OHLCV values
-  - [ ] Create `src/components/charts/price-chart.tsx` - line chart variant
-  - [ ] Create `src/components/charts/volume-chart.tsx` - histogram below candlestick
-  - [ ] Create `src/components/charts/indicator-overlay.tsx`:
-    - [ ] SMA/EMA lines on candlestick chart
-    - [ ] Bollinger Bands as shaded area
-    - [ ] Toggle visibility per indicator
-    - [ ] Sub-chart panes for RSI and MACD
+- [x] **3.1 TradingView Lightweight Charts**
+  - [x] Install `lightweight-charts` npm package
+  - [x] Create `src/components/charts/candlestick-chart.tsx`:
+    - [x] Initialize `createChart()` with dark theme
+    - [x] Accept OHLCV data as prop, render candlestick series
+    - [x] Time range selector (1D, 1W, 1M, 3M, 1Y, ALL)
+    - [x] Auto-resize on container resize
+    - [x] Crosshair tooltip with OHLCV values
+  - [x] Create `src/components/charts/price-chart.tsx` - line chart variant
+  - [x] Create `src/components/charts/volume-chart.tsx` - histogram below candlestick
+  - [x] Create `src/components/charts/indicator-overlay.tsx`:
+    - [x] SMA/EMA lines on candlestick chart
+    - [x] Bollinger Bands as shaded area
+    - [x] Toggle visibility per indicator
+    - [x] Sub-chart panes for RSI and MACD
 
-- [ ] **3.2 Main Dashboard Page**
-  - [ ] Build `src/app/(dashboard)/page.tsx` as Server Component
-  - [ ] Create `src/components/dashboard/market-overview.tsx` - top 20 assets grid with price, 24h change, mini sparkline, crypto/stocks tabs
-  - [ ] Create `src/components/dashboard/top-movers.tsx` - top gainers/losers cards
-  - [ ] Create `src/components/dashboard/signal-card.tsx` - compact signal with score, badge, cross-confirmation indicator
-  - [ ] Create `src/components/dashboard/fear-greed-widget.tsx` - semicircular gauge (0-100), color gradient, historical mini-chart
-  - [ ] Create `src/components/dashboard/watchlist-widget.tsx` - compact user watchlist with prices and signals
-  - [ ] Assemble responsive grid layout (2-3 columns desktop, 1 column mobile)
+- [x] **3.2 Main Dashboard Page**
+  - [x] Build `src/app/(dashboard)/page.tsx` as Client Component (fetches from API routes)
+  - [x] Create `src/components/dashboard/market-overview.tsx` - top 20 assets grid with price, 24h change, mini sparkline, crypto/stocks tabs
+  - [x] Create `src/components/dashboard/top-movers.tsx` - top gainers/losers cards
+  - [x] Create `src/components/dashboard/signal-card.tsx` - compact signal with score, badge, cross-confirmation indicator
+  - [x] Create `src/components/dashboard/fear-greed-widget.tsx` - semicircular gauge (0-100), color gradient, historical mini-chart
+  - [x] Create `src/components/dashboard/watchlist-widget.tsx` - compact user watchlist with prices and signals
+  - [x] Assemble responsive grid layout (2-3 columns desktop, 1 column mobile)
 
-- [ ] **3.3 Asset Detail Page**
-  - [ ] Build `src/app/(dashboard)/assets/[type]/[symbol]/page.tsx` - Server Component with signal generation
-  - [ ] Full-width candlestick chart with indicator overlays and time range selector
-  - [ ] Create `src/components/analysis/indicator-panel.tsx` - individual indicator scores with visual breakdowns
-  - [ ] Create `src/components/analysis/composite-score.tsx` - large circular gauge, signal label, cross-confirmation badge, weight breakdown
-  - [ ] "Add to Watchlist" and "Add to Portfolio" action buttons
+- [x] **3.3 Asset Detail Page**
+  - [x] Build `src/app/(dashboard)/assets/[type]/[symbol]/page.tsx` - Client Component with signal fetching
+  - [x] Full-width candlestick chart with indicator overlays and time range selector
+  - [x] Create `src/components/analysis/indicator-panel.tsx` - individual indicator scores with visual breakdowns
+  - [x] Create `src/components/analysis/composite-score.tsx` - large circular gauge, signal label, cross-confirmation badge, weight breakdown
+  - [x] "Add to Watchlist" and "Add to Portfolio" action buttons
 
-- [ ] **3.4 Signals Overview Page**
-  - [ ] Build `src/app/(dashboard)/signals/page.tsx` - table of recent signals
-  - [ ] Filter by signal type, asset type, date range
-  - [ ] Sort by composite score, date, asset name
-  - [ ] Create `src/components/analysis/signal-history.tsx` - timeline with buy/sell markers on price chart
+- [x] **3.4 Signals Overview Page**
+  - [x] Build `src/app/(dashboard)/signals/page.tsx` - table of recent signals
+  - [x] Filter by signal type, asset type, date range
+  - [x] Sort by composite score, date, asset name
+  - [x] Create `src/components/analysis/signal-history.tsx` - timeline with buy/sell markers on price chart
 
-- [ ] **3.5 Utility Formatters**
-  - [ ] Create `src/lib/utils/formatters.ts`:
-    - [ ] `formatCurrency(value, currency)` - locale-aware
-    - [ ] `formatPercent(value)` - with +/- sign, red/green color
-    - [ ] `formatLargeNumber(value)` - abbreviate K/M/B
-    - [ ] `formatDate(date, format)` - relative and absolute
-    - [ ] `formatSignalScore(score)` - returns label and color class
+- [x] **3.5 Utility Formatters**
+  - [x] Create `src/lib/utils/formatters.ts`:
+    - [x] `formatCurrency(value, currency)` - locale-aware
+    - [x] `formatPercent(value)` - with +/- sign, red/green color
+    - [x] `formatLargeNumber(value)` - abbreviate K/M/B
+    - [x] `formatDate(date, format)` - relative and absolute
+    - [x] `formatSignalScore(score)` - returns label and color class
 
 ---
 
